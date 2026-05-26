@@ -164,3 +164,13 @@ Responsável pela automação de atendimento e vendas.
 4. O cliente entra em contato pelo WhatsApp Business.
 5. O chatbot responde automaticamente.
 6. Se necessário, o cliente é encaminhado para um atendente humano.
+
+
+## Diagrama de Casos de uso
+
+<img height="500" alt="Burndown" src="https://github.com/Soldesi/projeto-gestao-agil/blob/main/imagens/Diagrama-Casos.png" />
+
+
+## Diagrama de Clases
+
+<img height="500" alt="Burndown" src="https://github.com/Soldesi/projeto-gestao-agil/blob/main/imagens/Diagrama-Classe.png" />
