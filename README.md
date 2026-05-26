@@ -113,12 +113,12 @@ Responsável pela automação de atendimento e vendas.
 
 | ID | Item | Checklist | Prioridade | Sprint | Status |
 |---|---|---|---|---|---|
-| 01 | Sistema de Controle de Estoque | Cadastro de produtos <br> Entrada de estoque <br> Saída de estoque <br> Visualização do estoque | Alta | Sprint 1 | Não iniciado |
-| 02 | Sistema de Controle de Caixa | Registro de entradas <br> Registro de saídas <br> Exibição de saldo | Alta | Sprint 1 | Não iniciado |
-| 03 | Relatórios do Sistema | Relatório de estoque <br> Relatório financeiro | Média | Sprint 2 | Não iniciado |
-| 04 | Integração com WhatsApp Business | Configuração do canal <br> Integração do atendimento | Alta | Sprint 2 | Não iniciado |
-| 05 | Desenvolvimento do Chatbot | Respostas automáticas <br> Menu de opções <br> Encaminhamento humano | Alta | Sprint 3 | Não iniciado |
-| 06 | Testes e Finalização | Testes do sistema <br> Correção de erros <br> Ajustes finais | Alta | Sprint 3 | Não iniciado |
+| BL.01 | Sistema de Controle de Estoque | Cadastro de produtos <br> Entrada de estoque <br> Saída de estoque <br> Visualização do estoque | Alta | Sprint 1 | Não iniciado |
+| BL.02 | Sistema de Controle de Caixa | Registro de entradas <br> Registro de saídas <br> Exibição de saldo | Alta | Sprint 1 | Não iniciado |
+| BL.03 | Relatórios do Sistema | Relatório de estoque <br> Relatório financeiro | Média | Sprint 2 | Não iniciado |
+| BL.04 | Integração com WhatsApp Business | Configuração do canal <br> Integração do atendimento | Alta | Sprint 2 | Não iniciado |
+| BL.05 | Desenvolvimento do Chatbot | Respostas automáticas <br> Menu de opções <br> Encaminhamento humano | Alta | Sprint 3 | Não iniciado |
+| BL.06 | Testes e Finalização | Testes do sistema <br> Correção de erros <br> Ajustes finais | Alta | Sprint 3 | Não iniciado |
 
 ---
 
@@ -164,6 +164,133 @@ Responsável pela automação de atendimento e vendas.
 4. O cliente entra em contato pelo WhatsApp Business.
 5. O chatbot responde automaticamente.
 6. Se necessário, o cliente é encaminhado para um atendente humano.
+
+
+### Sprint 1 — Controle de Estoque e Caixa
+
+**Objetivo da Sprint**  
+Desenvolver as funcionalidades principais de controle de estoque e movimentação de caixa.
+
+**Itens Selecionados**
+- BL.01 — Cadastro de produtos
+- BL.01 — Edição e exclusão de produtos
+- BL.01 — Entrada de estoque
+- BL.01 — Saída de estoque
+- BL.01 — Visualização de estoque
+- BL.02 — Registro de entradas e saídas do caixa
+- BL.02 — Exibição do saldo atual
+
+**Responsabilidades**
+
+| Integrante | Responsabilidade |
+|---|---|
+| Matheus Sales | Back-end e integração |
+| Eduardo Machado | Back-end e integração |
+| Rafael Costa | Front-end |
+| Lucas Paiva | Banco de dados |
+
+
+**Critérios de Entrega**
+- Funcionalidades do BL.01 implementadas corretamente
+- Funcionalidades do BL.02 funcionando corretamente
+- Estoque atualizado automaticamente
+- Interface funcional e responsiva
+
+---
+
+### Sprint 2 — Relatórios e Integração com WhatsApp
+
+**Objetivo da Sprint**  
+Criar relatórios e iniciar a integração com o WhatsApp Business.
+
+**Itens Selecionados**
+- BL.03 — Relatório de estoque
+- BL.03 — Relatório financeiro
+- BL.04 — Configuração do WhatsApp Business
+- BL.04 — Integração inicial do atendimento
+
+**Responsabilidades**
+
+| Integrante | Responsabilidade |
+|---|---|
+| Matheus Sales | Back-end e integração |
+| Eduardo Machado | Back-end e integração |
+| Rafael Costa | Front-end |
+| Lucas Paiva | Banco de dados |
+
+
+**Critérios de Entrega**
+- Funcionalidades do BL.03 funcionando corretamente
+- Funcionalidades do BL.04 integradas corretamente
+- Dados exibidos corretamente
+
+---
+
+### Sprint 3 — Chatbot, Testes e Finalização
+
+**Objetivo da Sprint**  
+Finalizar o chatbot e realizar testes completos no sistema.
+
+**Itens Selecionados**
+- BL.05 — Respostas automáticas
+- BL.05 — Menu de opções
+- BL.05 — Encaminhamento humano
+- BL.06 — Testes do sistema
+- BL.06 — Correção de erros
+- BL.06 — Ajustes finais
+
+**Responsabilidades**
+
+| Integrante | Responsabilidade |
+|---|---|
+| Matheus Sales | Back-end e integração |
+| Eduardo Machado | Back-end e integração |
+| Rafael Costa | Front-end |
+| Lucas Paiva | Banco de dados |
+
+
+**Critérios de Entrega**
+- Funcionalidades do BL.05 implementadas corretamente
+- Funcionalidades do BL.06 concluídas
+- Sistema estável
+- Projeto finalizado
+
+## 14. Daily Scrum
+
+As reuniões diárias serão realizadas para acompanhar o andamento do projeto, identificar dificuldades e alinhar as tarefas da equipe.
+
+**Duração**  
+15 minutos diários.
+
+**Perguntas da Daily**
+- O que fez ontem?
+- O que fará hoje?
+- Existe algum impedimento?
+
+**Objetivo**
+- Melhorar a comunicação da equipe
+- Acompanhar o progresso
+- Identificar problemas rapidamente
+
+---
+
+## Organização da equipe e commits
+
+Os commits devem seguir um padrão definido pela equipe e ser feitos na ordem correta de desenvolvimento.  
+Nenhum integrante deve realizar um commit sem antes comunicar a equipe, para que seja verificado se a alteração está na etapa certa do projeto.
+
+### Exemplo de padrão de commit
+- `feat: adicionar cadastro de produto`
+- `fix: corrigir cálculo do saldo`
+- `refactor: organizar estrutura do backend`
+- `test: adicionar testes do estoque`
+- `docs: atualizar README`
+
+### Regra de trabalho
+- Toda alteração deve ser comunicada antes do commit
+- O time deve validar se a tarefa está na ordem correta
+- O commit deve estar alinhado com a sprint atual
+- Mudanças grandes devem ser divididas em etapas menores
 
 
 ## Diagrama de Casos de uso
