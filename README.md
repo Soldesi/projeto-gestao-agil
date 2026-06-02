@@ -165,6 +165,7 @@ Responsável pela automação de atendimento e vendas.
 5. O chatbot responde automaticamente.
 6. Se necessário, o cliente é encaminhado para um atendente humano.
 
+## 13. Sprint Planning
 
 ### Sprint 1 — Controle de Estoque e Caixa
 
