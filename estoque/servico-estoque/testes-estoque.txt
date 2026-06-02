@@ -1,0 +1,11 @@
+SERVIÇO DE ESTOQUE - TESTES
+============================
+
+- Deve adicionar um produto ao estoque
+- Deve aumentar a quantidade ao dar entrada de itens
+- Deve diminuir a quantidade ao dar saída de itens
+- Não deve permitir saída maior que a quantidade disponível
+- Deve avisar quando o estoque está abaixo do mínimo
+- Deve mostrar quando um produto está esgotado
+- Deve consultar a quantidade atual de um produto
+- Não deve permitir cadastrar produto com quantidade negativa

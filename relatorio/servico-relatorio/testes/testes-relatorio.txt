@@ -1,0 +1,11 @@
+SERVIÇO DE RELATÓRIO - TESTES DO GERADOR
+=========================================
+
+- Deve gerar um relatório com os dados do período escolhido
+- Deve gerar um relatório vazio quando não há dados
+- Deve filtrar o relatório por data
+- Deve filtrar o relatório por categoria
+- Deve calcular os totais corretamente
+- Deve exportar o relatório em PDF
+- Deve exportar o relatório em planilha
+- Não deve gerar relatório com período de data inválido
