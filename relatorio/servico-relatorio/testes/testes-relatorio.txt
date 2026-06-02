@@ -1,6 +1,3 @@
-SERVIÇO DE RELATÓRIO - TESTES DO GERADOR
-=========================================
-
 - Deve gerar um relatório com os dados do período escolhido
 - Deve gerar um relatório vazio quando não há dados
 - Deve filtrar o relatório por data

@@ -1,6 +1,3 @@
-SERVIÇO DE CADASTRO - TESTES DO CRUD
-=====================================
-
 - Deve criar um novo registro com dados válidos
 - Não deve criar um registro com campos obrigatórios vazios
 - Deve listar todos os registros cadastrados

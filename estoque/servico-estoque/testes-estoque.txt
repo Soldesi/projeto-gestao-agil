@@ -1,6 +1,3 @@
-SERVIÇO DE ESTOQUE - TESTES
-============================
-
 - Deve adicionar um produto ao estoque
 - Deve aumentar a quantidade ao dar entrada de itens
 - Deve diminuir a quantidade ao dar saída de itens
