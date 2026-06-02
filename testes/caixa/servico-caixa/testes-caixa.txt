@@ -1,0 +1,13 @@
+DeveAceitarPagamento(RealizarPagamento(pagamento))
+DeveRecusarPagamento(RealizarPagamento(pagamento))
+
+DeveRealizarTransacaoBancaria(ProcessarTransacao(transacao))
+
+DeveAceitarCancelamentoDeVenda(CancelarVenda(venda))
+
+DeveEvitarFraudes(ValidarTransacao(transacao))
+
+DeveLiberarParcelamento(AplicarParcelamento(venda))
+DeveRetornarErroAoParcelarAbaixoDoValorMinimo(AplicarParcelamento(venda))
+
+DeveRetornarErroAoTentarVenderItemSemEstoque(VerificaEstoque(item))

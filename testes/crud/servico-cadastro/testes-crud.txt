@@ -1,9 +1,13 @@
-- Deve criar um novo registro com dados válidos
-- Não deve criar um registro com campos obrigatórios vazios
-- Deve listar todos os registros cadastrados
-- Deve buscar um registro pelo seu identificador
-- Deve retornar erro ao buscar um registro que não existe
-- Deve atualizar os dados de um registro existente
-- Não deve atualizar um registro que não existe
-- Deve excluir um registro existente
-- Não deve excluir um registro que não existe
+DeveCriarNovoRegistroComDadosValidos(CriarRegistro(registro))
+DeveRetornarErroAoCriarRegistroComCamposVazios(CriarRegistro(registro))
+
+DeveListarTodosOsRegistros(ListarRegistros())
+
+DeveBuscarRegistroPorId(BuscarRegistroPorId(id))
+DeveRetornarErroAoBuscarRegistroInexistente(BuscarRegistroPorId(id))
+
+DeveAtualizarRegistroExistente(AtualizarRegistro(registro))
+DeveRetornarErroAoAtualizarRegistroInexistente(AtualizarRegistro(registro))
+
+DeveExcluirRegistroExistente(ExcluirRegistro(id))
+DeveRetornarErroAoExcluirRegistroInexistente(ExcluirRegistro(id))
