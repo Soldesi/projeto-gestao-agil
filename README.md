@@ -167,7 +167,7 @@ Responsável pela automação de atendimento e vendas.
 
 ## 13. Sprint Planning
 
-### Sprint 1 — Controle de Estoque e Caixa
+### Sprint 1 — TDD, Controle de Estoque e Caixa
 
 **Objetivo da Sprint**  
 Desenvolver as funcionalidades principais de controle de estoque e movimentação de caixa.
@@ -180,6 +180,7 @@ Desenvolver as funcionalidades principais de controle de estoque e movimentaçã
 - BL.01 — Visualização de estoque
 - BL.02 — Registro de entradas e saídas do caixa
 - BL.02 — Exibição do saldo atual
+- BL.06 — Testes do sistema
 
 **Responsabilidades**
 
@@ -236,7 +237,6 @@ Finalizar o chatbot e realizar testes completos no sistema.
 - BL.05 — Respostas automáticas
 - BL.05 — Menu de opções
 - BL.05 — Encaminhamento humano
-- BL.06 — Testes do sistema
 - BL.06 — Correção de erros
 - BL.06 — Ajustes finais
 
