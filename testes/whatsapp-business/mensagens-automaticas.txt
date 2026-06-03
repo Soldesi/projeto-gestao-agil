@@ -1,0 +1,20 @@
+SUITE MensagensAutomaticasWhatsApp
+
+  TEST "deve formatar mensagem de saudação como template válido da API WA"
+    template = obterTemplateDeBoasVindas()
+    ASSERT template.name nãoÉVazio()
+    ASSERT template.language.code nãoÉVazio()
+    ASSERT template.components nãoÉVazio()
+
+  TEST "deve formatar mensagem interativa (menu) com tipo 'interactive'"
+    payload = montarPayloadMenu(para: "5511999990000")
+    ASSERT payload.type == "interactive"
+    ASSERT payload.interactive.type == "list"
+    ASSERT payload.interactive.action.sections nãoÉVazio()
+
+  TEST "deve rejeitar template com body acima de 1024 caracteres"
+    textoLongo = gerarTexto(tamanho: 1025)
+    ASSERT LANÇA TemplateMuitoLongoErro ao chamar
+      validarTemplate(body: textoLongo)
+
+END SUITE

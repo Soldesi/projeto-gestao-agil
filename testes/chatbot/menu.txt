@@ -1,0 +1,25 @@
+SUITE MenuDeOpcoes
+
+  TEST "deve construir menu com pelo menos 2 opções"
+    menu = construirMenu()
+    ASSERT menu.opcoes.quantidade() >= 2
+
+  TEST "cada opção deve ter id único e texto não-vazio"
+    menu = construirMenu()
+    ids = []
+    PARA CADA opcao EM menu.opcoes
+      ASSERT opcao.texto nãoÉVazio()
+      ASSERT opcao.id nãoEstaEm(ids)
+      ids.adicionar(opcao.id)
+
+  TEST "deve retornar opção correta ao receber id válido"
+    menu = construirMenu()
+    opcao = selecionarOpcao(menu, id: "1")
+    ASSERT opcao nãoÉNulo()
+
+  TEST "deve retornar null ao receber id inexistente"
+    menu = construirMenu()
+    opcao = selecionarOpcao(menu, id: "99")
+    ASSERT opcao == null
+
+END SUITE

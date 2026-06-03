@@ -1,0 +1,30 @@
+SUITE IntegracaoAPI
+
+  // usa mock/stub do client HTTP
+
+  TEST "deve montar payload correto ao enviar mensagem de texto"
+    cliente = criarClienteWhatsAppMock()
+    enviarMensagem(cliente, para: "5511999990000", texto: "Olá!")
+    payload = cliente.últimaRequisição().corpo
+    ASSERT payload.to == "5511999990000"
+    ASSERT payload.type == "text"
+    ASSERT payload.text.body == "Olá!"
+
+  TEST "deve interpretar corretamente o webhook de mensagem recebida"
+    payloadWebhook = carregarFixture("webhook_mensagem_texto.json")
+    evento = parsearWebhook(payloadWebhook)
+    ASSERT evento.tipo == MENSAGEM_RECEBIDA
+    ASSERT evento.de nãoÉVazio()
+    ASSERT evento.texto nãoÉVazio()
+
+  TEST "deve ignorar eventos de status (delivered, read) sem processar"
+    payloadStatus = carregarFixture("webhook_status_delivered.json")
+    evento = parsearWebhook(payloadStatus)
+    ASSERT evento.tipo == STATUS_IGNORADO
+
+  TEST "deve retornar erro descritivo ao receber resposta 401 da API"
+    cliente = criarClienteMockComResposta(status: 401)
+    resultado = enviarMensagem(cliente, para: "5511999990000", texto: "x")
+    ASSERT resultado.erro == TOKEN_INVALIDO
+
+END SUITE

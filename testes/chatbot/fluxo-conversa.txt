@@ -1,0 +1,23 @@
+SUITE FluxoDeConversa
+
+  TEST "deve iniciar o fluxo no estado SAUDACAO"
+    sessao = criarSessao(usuarioId: "u1")
+    ASSERT sessao.estado == SAUDACAO
+
+  TEST "deve transitar para MENU ao receber qualquer mensagem inicial"
+    sessao = criarSessao(usuarioId: "u1")
+    resultado = processarMensagem(sessao, mensagem: "oi")
+    ASSERT resultado.novoEstado == MENU
+
+  TEST "deve transitar para ATENDIMENTO_HUMANO ao receber opção '0'"
+    sessao = criarSessao(estado: MENU)
+    resultado = processarMensagem(sessao, mensagem: "0")
+    ASSERT resultado.novoEstado == ATENDIMENTO_HUMANO
+
+  TEST "deve retornar ao MENU se a opção digitada for inválida"
+    sessao = criarSessao(estado: MENU)
+    resultado = processarMensagem(sessao, mensagem: "999")
+    ASSERT resultado.novoEstado == MENU
+    ASSERT resultado.resposta contém "opção inválida"
+
+END SUITE

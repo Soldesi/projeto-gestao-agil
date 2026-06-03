@@ -1,0 +1,18 @@
+SUITE RespostasAutomaticas
+
+  TEST "deve retornar resposta não-vazia para qualquer estado válido"
+    PARA CADA estado EM [SAUDACAO, MENU, FAQ, ATENDIMENTO_HUMANO]
+      resposta = gerarResposta(estado)
+      ASSERT resposta.texto nãoÉVazio()
+
+  TEST "deve incluir opções numeradas na resposta do estado MENU"
+    resposta = gerarResposta(estado: MENU)
+    ASSERT resposta.texto contém "1."
+    ASSERT resposta.texto contém "0. Falar com atendente"
+
+  TEST "não deve retornar null para estado desconhecido"
+    resposta = gerarResposta(estado: DESCONHECIDO)
+    ASSERT resposta nãoÉNulo()
+    ASSERT resposta.tipo == FALLBACK
+
+END SUITE

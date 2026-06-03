@@ -1,0 +1,26 @@
+SUITE ConexaoEValidacaoAPI
+
+  // usa mock HTTP — não chama a API real
+
+  TEST "deve confirmar conexão ao receber 200 do endpoint de health"
+    cliente = criarClienteMockComResposta(status: 200, corpo: {ok: true})
+    resultado = verificarConexao(cliente)
+    ASSERT resultado.conectado == true
+
+  TEST "deve reportar falha de conexão ao receber timeout"
+    cliente = criarClienteMockComTimeout()
+    resultado = verificarConexao(cliente)
+    ASSERT resultado.conectado == false
+    ASSERT resultado.motivo == TIMEOUT
+
+  TEST "deve validar token confirmando que API responde 200 a requisição autenticada"
+    cliente = criarClienteMockComResposta(status: 200)
+    valido = validarToken(cliente, token: "token_valido")
+    ASSERT valido == true
+
+  TEST "deve rejeitar token inválido ao receber 401"
+    cliente = criarClienteMockComResposta(status: 401)
+    valido = validarToken(cliente, token: "token_errado")
+    ASSERT valido == false
+
+END SUITE

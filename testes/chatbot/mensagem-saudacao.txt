@@ -1,0 +1,18 @@
+SUITE MensagemDeSaudacao
+
+  TEST "deve enviar saudação ao criar sessão nova"
+    sessao = criarSessao(usuarioId: "u_novo")
+    ASSERT sessao.mensagensEnviadas[0].tipo == SAUDACAO
+
+  TEST "saudação deve conter o nome do serviço"
+    sessao = criarSessao(usuarioId: "u1")
+    saudacao = sessao.mensagensEnviadas[0].texto
+    ASSERT saudacao contém NOME_DO_SERVICO
+
+  TEST "não deve enviar saudação em sessão já existente"
+    sessao = recuperarSessao(usuarioId: "u_existente")
+    qtdMensagens = sessao.mensagensEnviadas.quantidade()
+    processarMensagem(sessao, "oi de novo")
+    ASSERT sessao.mensagensEnviadas[0].tipo != SAUDACAO
+
+END SUITE

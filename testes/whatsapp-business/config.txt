@@ -1,0 +1,18 @@
+SUITE ConfiguracaoWhatsApp
+
+  TEST "deve carregar configuração com todos os campos obrigatórios"
+    config = carregarConfigWhatsApp()
+    ASSERT config.phoneNumberId nãoÉVazio()
+    ASSERT config.accessToken nãoÉVazio()
+    ASSERT config.webhookVerifyToken nãoÉVazio()
+    ASSERT config.apiVersion nãoÉVazio()
+
+  TEST "deve lançar erro se accessToken estiver ausente"
+    definirVariavelDeAmbiente("WA_ACCESS_TOKEN", null)
+    ASSERT LANÇA ConfiguracaoInvalidaErro ao chamar carregarConfigWhatsApp()
+
+  TEST "apiVersion deve seguir padrão 'v{major}.{minor}'"
+    config = carregarConfigWhatsApp()
+    ASSERT config.apiVersion correspondeAoRegex(/^v\d+\.\d+$/)
+
+END SUITE

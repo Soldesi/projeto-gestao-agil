@@ -1,0 +1,22 @@
+SUITE EncaminhamentoHumano
+
+  TEST "deve criar ticket de atendimento ao encaminhar sessão"
+    sessao = criarSessao(usuarioId: "u1", estado: MENU)
+    ticket = encaminharParaHumano(sessao)
+    ASSERT ticket.id nãoÉVazio()
+    ASSERT ticket.status == AGUARDANDO
+    ASSERT ticket.usuarioId == "u1"
+
+  TEST "deve incluir histórico da sessão no ticket"
+    sessao = criarSessao(usuarioId: "u1")
+    processarMensagem(sessao, "olá")
+    processarMensagem(sessao, "1")
+    ticket = encaminharParaHumano(sessao)
+    ASSERT ticket.historico.quantidade() == 2
+
+  TEST "deve bloquear novas respostas do bot após encaminhamento"
+    sessao = criarSessao(estado: ATENDIMENTO_HUMANO)
+    resposta = processarMensagem(sessao, "alguma mensagem")
+    ASSERT resposta.origemBot == false
+
+END SUITE

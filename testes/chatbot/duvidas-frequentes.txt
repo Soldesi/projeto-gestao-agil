@@ -1,0 +1,23 @@
+SUITE DuvidasFrequentes
+
+  TEST "deve encontrar FAQ cadastrada por palavra-chave exata"
+    cadastrarFAQ(id: "faq_horario", palavras: ["horário"],
+                  resposta: "Funcionamos de seg a sex, 8h–18h.")
+    resultado = buscarFAQ(consulta: "horário")
+    ASSERT resultado.id == "faq_horario"
+
+  TEST "deve encontrar FAQ por palavra-chave parcial"
+    cadastrarFAQ(id: "faq_preco", palavras: ["preço", "valor"],
+                  resposta: "Consulte nossa tabela de preços.")
+    resultado = buscarFAQ(consulta: "qual o preço")
+    ASSERT resultado nãoÉNulo()
+
+  TEST "deve retornar null quando consulta não corresponde a nenhuma FAQ"
+    resultado = buscarFAQ(consulta: "xyzabc")
+    ASSERT resultado == null
+
+  TEST "deve retornar a FAQ de maior relevância quando há múltiplos matches"
+    resultados = buscarFAQRankeada(consulta: "horário de atendimento")
+    ASSERT resultados[0].score >= resultados[1].score
+
+END SUITE
