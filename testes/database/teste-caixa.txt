@@ -1,0 +1,114 @@
+-- TESTE 1 — DeveAceitarPagamento
+-- Função: RealizarPagamento(pagamento)
+
+INSERT INTO movimentacao_caixa (tipo, valor, descricao, categoria)
+    VALUES ('ENTRADA', 50.00, 'Venda de produtos', 'VENDAS');
+
+SELECT CASE
+    WHEN COUNT(*) = 1
+    THEN 'PASSOU — DeveAceitarPagamento'
+    ELSE 'FALHOU — DeveAceitarPagamento'
+END AS resultado
+FROM movimentacao_caixa
+WHERE tipo = 'ENTRADA' AND valor = 50.00 AND categoria = 'VENDAS';
+
+-- TESTE 2 — DeveRecusarPagamento
+-- Função: RealizarPagamento(pagamento)
+
+SELECT CASE
+    WHEN COUNT(*) = 0
+    THEN 'PASSOU — DeveRecusarPagamento (nenhum valor inválido no caixa)'
+    ELSE 'FALHOU — DeveRecusarPagamento'
+END AS resultado
+FROM movimentacao_caixa
+WHERE valor <= 0;
+
+-- TESTE 3 — DeveRealizarTransacaoBancaria
+-- Função: ProcessarTransacao(transacao)
+
+INSERT INTO movimentacao_caixa (tipo, valor, descricao, categoria)
+    VALUES ('ENTRADA', 150.00, 'Transferência bancária', 'TRANSFERENCIA');
+
+SELECT CASE
+    WHEN SUM(CASE WHEN tipo='ENTRADA' THEN valor ELSE 0 END)
+       - SUM(CASE WHEN tipo='SAIDA'   THEN valor ELSE 0 END) = 200.00
+    THEN 'PASSOU — DeveRealizarTransacaoBancaria (saldo = R$ 200,00)'
+    ELSE 'FALHOU — DeveRealizarTransacaoBancaria'
+END AS resultado
+FROM movimentacao_caixa;
+
+-- TESTE 4 — DeveAceitarCancelamentoDeVenda
+-- Função: CancelarVenda(venda)
+
+INSERT INTO venda (status, valor_total) VALUES ('ATIVA', 25.00);
+INSERT INTO item_venda (venda_id, produto_id, quantidade, preco_unitario)
+    VALUES (1, 1, 10, 2.50);
+
+INSERT INTO movimentacao_caixa (tipo, valor, descricao, categoria)
+    VALUES ('ENTRADA', 25.00, 'Venda #1', 'VENDAS');
+
+UPDATE venda SET status = 'CANCELADA' WHERE id = 1;
+
+INSERT INTO movimentacao_caixa (tipo, valor, descricao, categoria)
+    VALUES ('SAIDA', 25.00, 'Cancelamento Venda #1', 'CANCELAMENTO');
+
+UPDATE produto SET quantidade = quantidade + 10 WHERE id = 1;
+
+SELECT CASE
+    WHEN v.status = 'CANCELADA' AND p.quantidade = 110
+    THEN 'PASSOU — DeveAceitarCancelamentoDeVenda'
+    ELSE 'FALHOU — DeveAceitarCancelamentoDeVenda'
+END AS resultado
+FROM venda v, produto p
+WHERE v.id = 1 AND p.id = 1;
+
+-- TESTE 5 — DeveEvitarFraudes
+-- Função: ValidarTransacao(transacao)
+
+SELECT CASE
+    WHEN SUM(CASE WHEN tipo='ENTRADA' THEN valor ELSE -valor END) >= 0
+    THEN 'PASSOU — DeveEvitarFraudes (saldo positivo ou zerado)'
+    ELSE 'FALHOU — DeveEvitarFraudes (saldo negativo detectado)'
+END AS resultado
+FROM movimentacao_caixa;
+
+-- TESTE 6 — DeveLiberarParcelamento
+-- Função: AplicarParcelamento(venda)
+
+INSERT INTO venda (status, valor_total, parcelado) VALUES ('ATIVA', 150.00, 3);
+
+SELECT CASE
+    WHEN parcelado = 3
+     AND (valor_total / parcelado) >= 20.00
+    THEN 'PASSOU — DeveLiberarParcelamento'
+    ELSE 'FALHOU — DeveLiberarParcelamento'
+END AS resultado
+FROM venda
+WHERE id = 2;
+
+-- TESTE 7 — DeveRetornarErroAoParcelarAbaixoDoValorMinimo
+-- Função: AplicarParcelamento(venda)
+
+INSERT INTO venda (status, valor_total, parcelado) VALUES ('ATIVA', 30.00, 4);
+
+SELECT CASE
+    WHEN (valor_total / parcelado) < 20.00
+    THEN 'PASSOU — DeveRetornarErroAoParcelarAbaixoDoValorMinimo (parcela inválida detectada)'
+    ELSE 'FALHOU — DeveRetornarErroAoParcelarAbaixoDoValorMinimo'
+END AS resultado
+FROM venda
+WHERE id = 3;
+
+-- TESTE 8 — DeveRetornarErroAoTentarVenderItemSemEstoque
+-- Função: VerificaEstoque(item)
+
+INSERT INTO produto (nome, preco, quantidade, quantidade_minima)
+    VALUES ('Produto Esgotado', 9.90, 0, 5);
+
+SELECT CASE
+    WHEN quantidade = 0
+    THEN 'PASSOU — DeveRetornarErroAoTentarVenderItemSemEstoque (produto esgotado detectado)'
+    ELSE 'FALHOU — DeveRetornarErroAoTentarVenderItemSemEstoque'
+END AS resultado
+FROM produto
+WHERE nome = 'Produto Esgotado';

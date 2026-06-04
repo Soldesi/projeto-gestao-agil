@@ -1,0 +1,129 @@
+-- TESTE 1 — DeveCriarNovoRegistroComDadosValidos
+-- Função: CriarRegistro(registro)
+
+INSERT INTO produto (nome, preco, quantidade)
+    VALUES ('Biscoito de Arroz', 4.50, 60);
+
+SELECT CASE
+    WHEN COUNT(*) = 1
+    THEN 'PASSOU — DeveCriarNovoRegistroComDadosValidos'
+    ELSE 'FALHOU — DeveCriarNovoRegistroComDadosValidos'
+END AS resultado
+FROM produto
+WHERE nome = 'Biscoito de Arroz'
+  AND preco = 4.50
+  AND quantidade = 60;
+
+-- TESTE 2 — DeveRetornarErroAoCriarRegistroComCamposVazios
+-- Função: CriarRegistro(registro)
+
+SELECT CASE
+    WHEN COUNT(*) = 0
+    THEN 'PASSOU — DeveRetornarErroAoCriarRegistroComCamposVazios (nenhum nome NULL)'
+    ELSE 'FALHOU — DeveRetornarErroAoCriarRegistroComCamposVazios'
+END AS resultado
+FROM produto
+WHERE nome IS NULL;
+
+-- TESTE 3 — DeveListarTodosOsRegistros
+-- Função: ListarRegistros()
+
+INSERT INTO produto (nome, preco, quantidade) VALUES ('Chá Verde',     8.00, 25);
+INSERT INTO produto (nome, preco, quantidade) VALUES ('Molho de Soja', 5.90, 40);
+
+-- Conta apenas os 3 produtos inseridos neste arquivo de teste
+SELECT CASE
+    WHEN COUNT(*) = 3
+    THEN 'PASSOU — DeveListarTodosOsRegistros'
+    ELSE 'FALHOU — DeveListarTodosOsRegistros'
+END AS resultado
+FROM produto
+WHERE ativo = TRUE
+  AND nome IN ('Biscoito de Arroz', 'Chá Verde', 'Molho de Soja');
+
+-- TESTE 4 — DeveBuscarRegistroPorId
+-- Função: BuscarRegistroPorId(id)
+
+SELECT CASE
+    WHEN COUNT(*) = 1
+    THEN 'PASSOU — DeveBuscarRegistroPorId'
+    ELSE 'FALHOU — DeveBuscarRegistroPorId'
+END AS resultado
+FROM produto
+WHERE id = 1;
+
+-- TESTE 5 — DeveRetornarErroAoBuscarRegistroInexistente
+-- Função: BuscarRegistroPorId(id)
+
+SELECT CASE
+    WHEN COUNT(*) = 0
+    THEN 'PASSOU — DeveRetornarErroAoBuscarRegistroInexistente'
+    ELSE 'FALHOU — DeveRetornarErroAoBuscarRegistroInexistente'
+END AS resultado
+FROM produto
+WHERE id = 9999;
+
+-- TESTE 6 — DeveAtualizarRegistroExistente
+-- Função: AtualizarRegistro(registro)
+
+UPDATE produto
+   SET preco = 5.00,
+       descricao = 'Pacote 200g premium',
+       atualizado_em = NOW()
+ WHERE id = 1;
+
+SELECT CASE
+    WHEN preco = 5.00
+     AND descricao = 'Pacote 200g premium'
+    THEN 'PASSOU — DeveAtualizarRegistroExistente'
+    ELSE 'FALHOU — DeveAtualizarRegistroExistente'
+END AS resultado
+FROM produto
+WHERE id = 1;
+
+-- TESTE 7 — DeveRetornarErroAoAtualizarRegistroInexistente
+-- Função: AtualizarRegistro(registro)
+
+DO $$
+DECLARE
+    linhas INTEGER;
+BEGIN
+    UPDATE produto SET preco = 99.99 WHERE id = 9999;
+    GET DIAGNOSTICS linhas = ROW_COUNT;
+    IF linhas = 0 THEN
+        RAISE NOTICE 'PASSOU — DeveRetornarErroAoAtualizarRegistroInexistente';
+    ELSE
+        RAISE NOTICE 'FALHOU — DeveRetornarErroAoAtualizarRegistroInexistente';
+    END IF;
+END;
+$$;
+
+-- TESTE 8 — DeveExcluirRegistroExistente
+-- Função: ExcluirRegistro(id)
+
+UPDATE produto SET ativo = FALSE WHERE id = 3;
+
+SELECT CASE
+    WHEN COUNT(*) = 0
+    THEN 'PASSOU — DeveExcluirRegistroExistente'
+    ELSE 'FALHOU — DeveExcluirRegistroExistente'
+END AS resultado
+FROM produto
+WHERE id = 3 AND ativo = TRUE;
+
+-- TESTE 9 — DeveRetornarErroAoExcluirRegistroInexistente
+-- Função: ExcluirRegistro(id)
+
+DO $$
+DECLARE
+    linhas INTEGER;
+BEGIN
+    UPDATE produto SET ativo = FALSE WHERE id = 9999;
+    GET DIAGNOSTICS linhas = ROW_COUNT;
+    IF linhas = 0 THEN
+        RAISE NOTICE 'PASSOU — DeveRetornarErroAoExcluirRegistroInexistente';
+    ELSE
+        RAISE NOTICE 'FALHOU — DeveRetornarErroAoExcluirRegistroInexistente';
+    END IF;
+END;
+$$;

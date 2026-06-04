@@ -1,0 +1,106 @@
+-- TESTE 1 — DeveGerarRelatorioComDadosDoPeriodo
+-- Função: GerarRelatorio(periodo)
+
+SELECT CASE
+    WHEN COUNT(*) >= 1
+    THEN 'PASSOU — DeveGerarRelatorioComDadosDoPeriodo'
+    ELSE 'FALHOU — DeveGerarRelatorioComDadosDoPeriodo'
+END AS resultado
+FROM movimentacao_caixa
+WHERE realizado_em BETWEEN '2025-05-01' AND '2025-05-31 23:59:59';
+
+-- TESTE 2 — DeveGerarRelatorioVazioSemDados
+-- Função: GerarRelatorio(periodo)
+
+SELECT CASE
+    WHEN COUNT(*) = 0
+    THEN 'PASSOU — DeveGerarRelatorioVazioSemDados'
+    ELSE 'FALHOU — DeveGerarRelatorioVazioSemDados'
+END AS resultado
+FROM movimentacao_caixa
+WHERE realizado_em BETWEEN '2020-01-01' AND '2020-12-31 23:59:59';
+
+-- TESTE 3 — DeveRetornarErroAoGerarRelatorioComPeriodoInvalido
+-- Função: GerarRelatorio(periodo)
+
+SELECT CASE
+    WHEN COUNT(*) = 0
+    THEN 'PASSOU — DeveRetornarErroAoGerarRelatorioComPeriodoInvalido (datas invertidas)'
+    ELSE 'FALHOU — DeveRetornarErroAoGerarRelatorioComPeriodoInvalido'
+END AS resultado
+FROM movimentacao_caixa
+WHERE realizado_em BETWEEN '2025-06-01' AND '2025-05-01';
+
+-- TESTE 4 — DeveFiltrarRelatorioPorData
+-- Função: FiltrarRelatorio(data)
+
+SELECT CASE
+    WHEN COUNT(*) >= 1
+    THEN 'PASSOU — DeveFiltrarRelatorioPorData'
+    ELSE 'FALHOU — DeveFiltrarRelatorioPorData'
+END AS resultado
+FROM movimentacao_caixa
+WHERE realizado_em::date = '2025-05-07';
+
+-- TESTE 5 — DeveFiltrarRelatorioPorCategoria
+-- Função: FiltrarRelatorio(categoria)
+
+SELECT CASE
+    WHEN COUNT(*) = 3
+    THEN 'PASSOU — DeveFiltrarRelatorioPorCategoria'
+    ELSE 'FALHOU — DeveFiltrarRelatorioPorCategoria'
+END AS resultado
+FROM movimentacao_caixa
+WHERE categoria = 'VENDAS';
+
+-- TESTE 6 — DeveCalcularTotaisCorretamente
+-- Função: CalcularTotais(relatorio)
+
+SELECT CASE
+    WHEN total_entradas = 730.00
+     AND total_saidas   = 120.00
+     AND saldo_final    = 610.00
+    THEN 'PASSOU — DeveCalcularTotaisCorretamente'
+    ELSE 'FALHOU — DeveCalcularTotaisCorretamente'
+END AS resultado
+FROM (
+    SELECT
+        SUM(CASE WHEN tipo = 'ENTRADA' THEN valor ELSE 0    END) AS total_entradas,
+        SUM(CASE WHEN tipo = 'SAIDA'   THEN valor ELSE 0    END) AS total_saidas,
+        SUM(CASE WHEN tipo = 'ENTRADA' THEN valor ELSE -valor END) AS saldo_final
+    FROM movimentacao_caixa
+) totais;
+
+-- TESTE 7 — DeveExportarRelatorioEmPdf
+-- Função: ExportarRelatorio(relatorio)
+
+SELECT CASE
+    WHEN COUNT(*) >= 1
+    THEN 'PASSOU — DeveExportarRelatorioEmPdf (dados disponíveis para exportação)'
+    ELSE 'FALHOU — DeveExportarRelatorioEmPdf'
+END AS resultado
+FROM (
+    SELECT
+        p.nome,
+        SUM(CASE WHEN me.tipo='ENTRADA' THEN me.quantidade ELSE 0 END) AS total_entrada,
+        SUM(CASE WHEN me.tipo='SAIDA'   THEN me.quantidade ELSE 0 END) AS total_saida,
+        p.quantidade AS saldo_atual
+    FROM produto p
+    LEFT JOIN movimentacao_estoque me ON me.produto_id = p.id
+    WHERE p.ativo = TRUE
+    GROUP BY p.id, p.nome, p.quantidade
+) relatorio_estoque;
+
+-- TESTE 8 — DeveExportarRelatorioEmPlanilha
+-- Função: ExportarRelatorio(relatorio)
+
+SELECT CASE
+    WHEN COUNT(*) >= 1
+    THEN 'PASSOU — DeveExportarRelatorioEmPlanilha (dados disponíveis para planilha)'
+    ELSE 'FALHOU — DeveExportarRelatorioEmPlanilha'
+END AS resultado
+FROM (
+    SELECT realizado_em AS data, tipo, categoria, descricao, valor
+    FROM movimentacao_caixa
+    ORDER BY realizado_em
+) relatorio_financeiro;

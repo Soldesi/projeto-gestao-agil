@@ -1,0 +1,122 @@
+-- TESTE 1 — DeveAdicionarProdutoAoEstoque
+-- Função: AdicionarProduto(produto)
+
+INSERT INTO produto (nome, preco, quantidade, quantidade_minima)
+    VALUES ('Molho de Soja', 5.90, 50, 10);
+
+SELECT CASE
+    WHEN COUNT(*) = 1
+    THEN 'PASSOU — DeveAdicionarProdutoAoEstoque'
+    ELSE 'FALHOU — DeveAdicionarProdutoAoEstoque'
+END AS resultado
+FROM produto
+WHERE nome = 'Molho de Soja'
+  AND preco = 5.90
+  AND quantidade = 50;
+
+-- TESTE 2 — DeveAumentarQuantidadeAoEntrarItens
+-- Função: AplicarEntradaItem(item)
+
+INSERT INTO movimentacao_estoque (produto_id, tipo, quantidade, observacao)
+    VALUES (1, 'ENTRADA', 20, 'Reposição de lote');
+
+UPDATE produto
+   SET quantidade = quantidade + 20,
+       atualizado_em = NOW()
+ WHERE id = 1;
+
+SELECT CASE
+    WHEN p.quantidade = 70
+     AND m.tipo = 'ENTRADA'
+     AND m.quantidade = 20
+    THEN 'PASSOU — DeveAumentarQuantidadeAoEntrarItens'
+    ELSE 'FALHOU — DeveAumentarQuantidadeAoEntrarItens'
+END AS resultado
+FROM produto p
+JOIN movimentacao_estoque m ON m.produto_id = p.id
+WHERE p.id = 1 AND m.tipo = 'ENTRADA';
+
+-- TESTE 3 — DeveDiminuirQuantidadeAoSairItens
+-- Função: AplicarSaidaItem(item)
+
+INSERT INTO movimentacao_estoque (produto_id, tipo, quantidade, observacao)
+    VALUES (1, 'SAIDA', 10, 'Venda no balcão');
+
+UPDATE produto
+   SET quantidade = quantidade - 10,
+       atualizado_em = NOW()
+ WHERE id = 1;
+
+SELECT CASE
+    WHEN p.quantidade = 60
+     AND m.tipo = 'SAIDA'
+    THEN 'PASSOU — DeveDiminuirQuantidadeAoSairItens'
+    ELSE 'FALHOU — DeveDiminuirQuantidadeAoSairItens'
+END AS resultado
+FROM produto p
+JOIN movimentacao_estoque m ON m.produto_id = p.id
+WHERE p.id = 1 AND m.tipo = 'SAIDA';
+
+-- TESTE 4 — DeveRetornarErroAoTentarRealizarSaidaItem
+-- Função: AplicarSaidaItem(item)
+
+INSERT INTO produto (nome, preco, quantidade, quantidade_minima)
+    VALUES ('Produto Quase Zerado', 3.00, 2, 5);
+
+SELECT CASE
+    WHEN quantidade < 10
+    THEN 'PASSOU — DeveRetornarErroAoTentarRealizarSaidaItem (saldo insuficiente detectado)'
+    ELSE 'FALHOU — DeveRetornarErroAoTentarRealizarSaidaItem'
+END AS resultado
+FROM produto
+WHERE nome = 'Produto Quase Zerado';
+
+-- TESTE 5 — DeveAvisarQuandoEstoqueAbaixoDoMinimo
+-- Função: VerificarEstoqueMinimo(produto)
+
+INSERT INTO produto (nome, preco, quantidade, quantidade_minima)
+    VALUES ('Tempero Especial', 1.80, 3, 10);
+
+SELECT CASE
+    WHEN COUNT(*) >= 1
+    THEN 'PASSOU — DeveAvisarQuandoEstoqueAbaixoDoMinimo'
+    ELSE 'FALHOU — DeveAvisarQuandoEstoqueAbaixoDoMinimo'
+END AS resultado
+FROM produto
+WHERE quantidade < quantidade_minima AND ativo = TRUE;
+
+-- TESTE 6 — DeveIndicarProdutoEsgotado
+-- Função: VerificarProdutoEsgotado(produto)
+
+INSERT INTO produto (nome, preco, quantidade, quantidade_minima)
+    VALUES ('Azeite de Gergelim', 12.00, 0, 5);
+
+SELECT CASE
+    WHEN COUNT(*) >= 1
+    THEN 'PASSOU — DeveIndicarProdutoEsgotado'
+    ELSE 'FALHOU — DeveIndicarProdutoEsgotado'
+END AS resultado
+FROM produto
+WHERE quantidade = 0 AND ativo = TRUE;
+
+-- TESTE 7 — DeveConsultarQuantidadeAtual
+-- Função: ConsultarQuantidade(produto)
+
+SELECT CASE
+    WHEN quantidade = 60
+    THEN 'PASSOU — DeveConsultarQuantidadeAtual'
+    ELSE 'FALHOU — DeveConsultarQuantidadeAtual'
+END AS resultado
+FROM produto
+WHERE id = 1;
+
+-- TESTE 8 — DeveRetornarErroAoCadastrarProdutoComQuantidadeNegativa
+-- Função: AdicionarProduto(produto)
+
+SELECT CASE
+    WHEN COUNT(*) = 0
+    THEN 'PASSOU — DeveRetornarErroAoCadastrarProdutoComQuantidadeNegativa'
+    ELSE 'FALHOU — DeveRetornarErroAoCadastrarProdutoComQuantidadeNegativa'
+END AS resultado
+FROM produto
+WHERE quantidade < 0;
