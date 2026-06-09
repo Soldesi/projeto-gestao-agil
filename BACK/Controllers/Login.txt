@@ -1,0 +1,7 @@
+RotaCriarNovoUsuario(usuario, email, senha){
+    return CriarNovoUsuario(usuario, email, senha);
+}
+
+RotaLogar(email, senha){
+    return Logar(email, senha);
+}
