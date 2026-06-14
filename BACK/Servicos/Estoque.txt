@@ -1,0 +1,45 @@
+AdicionarProduto(produto){
+    if(produto.quantidade < 0)
+        return erro;
+    AdicionarProdutoRepositorio(produto);
+    return sucesso;
+}
+ 
+AplicarEntradaItem(item){
+    var produto = BuscarProduto(item.produtoId);
+    if(produto == null)
+        return erro;
+    produto.quantidade += item.quantidade;
+    AtualizarProdutoRepositorio(produto);
+    return sucesso;
+}
+ 
+AplicarSaidaItem(item){
+    var produto = BuscarProduto(item.produtoId);
+    if(produto == null)
+        return erro;
+    if(item.quantidade > produto.quantidade)
+        return erro;
+    produto.quantidade -= item.quantidade;
+    AtualizarProdutoRepositorio(produto);
+    return sucesso;
+}
+ 
+VerificarEstoqueMinimo(produto){
+    if(produto.quantidade < produto.estoqueMinimo)
+        return aviso;
+    return ok;
+}
+ 
+VerificarProdutoEsgotado(produto){
+    if(produto.quantidade == 0)
+        return true;
+    return false;
+}
+ 
+ConsultarQuantidade(produto){
+    var atual = BuscarProduto(produto.id);
+    if(atual == null)
+        return erro;
+    return atual.quantidade;
+}
