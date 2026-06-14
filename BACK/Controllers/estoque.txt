@@ -1,0 +1,23 @@
+RotaAdicionarProduto(produto){
+    return AdicionarProduto(produto);
+}
+ 
+RotaAplicarEntradaItem(item){
+    return AplicarEntradaItem(item);
+}
+ 
+RotaAplicarSaidaItem(item){
+    return AplicarSaidaItem(item);
+}
+ 
+RotaVerificarEstoqueMinimo(produto){
+    return VerificarEstoqueMinimo(produto);
+}
+ 
+RotaVerificarProdutoEsgotado(produto){
+    return VerificarProdutoEsgotado(produto);
+}
+ 
+RotaConsultarQuantidade(produto){
+    return ConsultarQuantidade(produto);
+}
